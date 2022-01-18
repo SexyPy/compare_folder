@@ -1,4 +1,5 @@
 import os
+import shutil
 from pathlib import Path
 from sys import exit
 
@@ -36,8 +37,14 @@ def main() -> None:
                         print(
                             f"{folder1}{dest}",
                             checksum.crc32(f"{folder2}{dest}"),
+                            "|",
+                            f"{folder2}{dest}",
                             checksum.crc32(f"{folder1}{dest}"),
                         )
+                        shutil.copyfile(f"{folder2}{dest}", f"{folder1}{dest}")
+                else:
+                    os.makedirs(os.path.dirname(f"{folder1}{dest}"), exist_ok=True)
+                    shutil.copyfile(f"{folder2}{dest}", f"{folder1}{dest}")
 
 
 main()
